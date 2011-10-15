@@ -1,9 +1,9 @@
 Dependencies
 ============
-jQuery
-Socket.io
-Backbone.js
-Underscore.js (for rendering ... will remove this dependency asap)
+* jQuery
+* Socket.io
+* Backbone.js
+* Underscore.js (for rendering ... will remove this dependency asap)
 
 How to use - client side
 ========================
