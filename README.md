@@ -6,13 +6,15 @@ Backbone.js
 Underscore.js (for rendering ... will remove this dependency asap)
 
 How to use - client side
-========================Include the js and css script
+========================
+
+Include the js and css script.
 
 Create a model that will extend the autocompleter and initialize the autocompleter.
 This allows you to create search models that have different socket.io namespaces. e.g. one for user search 
 and another for products.
 
-   UserCompleterModel = window.CompleterModel.extend({
+    UserCompleterModel = window.CompleterModel.extend({
       initialize: function() {
         this.createCompleter({
           namespace: 'completer',
@@ -24,9 +26,9 @@ and another for products.
       }
     });
 
-The model above will have socket.io make requests to "completer:user" namespace. It expects the server
-to query on the "name" column of your database table and return the age, location and name of the user. 
-When parsing the response, "name" is considered to be the result, so it is separated out from the other attributes. 
+The model above will have socket.io make requests to the `completer:user` namespace. It expects the server
+to query on the `name` column of your database table and return the age, location and name of the user. 
+When parsing the response, the `name` key is considered to be the result, so it is separated out from the other attributes. 
 
 You'll now want to create an instance of your model. It requires some options to help setup the view that is used behind the scenes. 
 
@@ -40,20 +42,20 @@ You'll now want to create an instance of your model. It requires some options to
       selectionTemplateId: '#user_search_selection_template',
     });
 
-It is expected that you will have an element to treat as the autocomplete widget. Pass the ID of that for the "completerElId" option. 
-The next three options are selectors for the input element, the results container and the selection container (holds what you select). These selectors are used relative to the completerElId, so make sure they are children of that element. The containers should be either ordered or unordered lists - <ol> or </ul>
+It is expected that you will have an element to treat as the autocomplete widget. Pass the ID of that for the `completerElId` option. 
+The next three options are selectors for the input element, the results container and the selection container (holds what you select). These selectors are used relative to the `completerElId` element, so make sure they are children. If you don't want them to be children, give them an ID and use that as the selector. The containers should be either an ordered or unordered list.
 
-The onSelect option is an optional callback that will run when the user clicks on a result.
+The `onSelect` option is an optional callback that will run when the user clicks on a result.
 
 The autocompleter also needs two templates for rendering. Examples using jade templates:
 
-  // results template
-  <% _.each(results, function(result) { %>
-  | <li id="<%= result.respId %>"><%= result.result %></li>
-  <% }); %>
+    // results template
+    <% _.each(results, function(result) { %>
+    | <li id="<%= result.respId %>"><%= result.result %></li>
+    <% }); %>
 
-  // selection template
-  | <li data-age="<%= data.extra.age %>"><%= data.result %></li>
+    // selection template
+    | <li data-age="<%= data.extra.age %>"><%= data.result %></li>
 
 Finally, you must tell the auto completer to create itself. This is done with a trigger call like so:
   
@@ -63,6 +65,7 @@ The reason I added this is because the containers I want to use for selections a
 
 How to use - server side 
 ========================
+
 I'm using Node.js with socket.io to communicate with the client code and Mongodb as the data store. Using the example above, you would listen for socket messages like so:
 
   io.sockets.on('connection', function(socket) {
@@ -81,7 +84,7 @@ I'm using Node.js with socket.io to communicate with the client code and Mongodb
       });
     });
 
-Always send your response with ":result" tagged at the end of your socket path. 
+Always send your response with `:result` tagged at the end of your socket path. If you want to change this, look at the model source code and change the event the `completer` object binds to.
 
 What this still needs
 =====================
