@@ -51,7 +51,6 @@
     },
 
     _onResponse: function(resp) {
-      console.log('got response!');
       this.set({ 'completerResults': resp.result });
     }
   });
